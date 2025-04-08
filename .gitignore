@@ -4,9 +4,6 @@ node_modules/
 # Ignore environment variables
 .env
 
-# Ignore Firebase service account credentials
-serviceAccountKey.json
-
 # Ignore logs and cache files
 logs/
 *.log
