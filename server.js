@@ -16,7 +16,7 @@ dotenv.config();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://Precision-Farming-frontend.vercel.app"],
+  origin: ["http://localhost:3000", "https://precision-farming-ui-view.vercel.app", "https://Precision-Farming-frontend.vercel.app"],
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
