@@ -2,6 +2,7 @@
 
 const express = require("express");
 const cors = require("cors");
+const app = express();
 
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
@@ -12,7 +13,6 @@ const SoilRoutes = require("./src/routes/soilRoutes");
 
 dotenv.config();
 
-const app = express();
 const PORT = process.env.PORT || 5000;
 
 const corsOptions = {
@@ -21,7 +21,6 @@ const corsOptions = {
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
-
 
 app.use(cors(corsOptions));
 
