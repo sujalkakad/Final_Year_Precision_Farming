@@ -3,6 +3,7 @@ node_modules/
 
 # Ignore environment variables
 .env
+serviceAccountKey.json
 
 # Ignore logs and cache files
 logs/
