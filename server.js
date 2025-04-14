@@ -1,4 +1,5 @@
-
+require("dotenv").config();
+require("./src/config/firebaseConfig");
 
 const express = require("express");
 const cors = require("cors");
@@ -10,6 +11,7 @@ const multer = require("multer");
 const dotenv = require("dotenv");
 const contactRoutes = require("./src/routes/contactRoutes");
 const SoilRoutes = require("./src/routes/soilRoutes");
+const accountRoutes = require("./src/routes/AccountRoute");
 
 dotenv.config();
 
@@ -34,22 +36,8 @@ const upload = multer({ storage: storage });
 // ✅ Routes
 app.use("/api/contact", contactRoutes);
 app.use("/api/soil", SoilRoutes);
+app.use("/api/account", accountRoutes);
 
-// ✅ Farm schema
-const farmDataSchema = new mongoose.Schema({
-  username: String,
-  area: String,
-  measureScale: String,
-  soilType: String,
-  address: String,
-  city: String,
-  pincode: String,
-  contactNum: String,
-  markerPosition: Object,
-  reports: [{ data: Buffer, contentType: String }],
-}, { timestamps: true });
-
-const FarmData = mongoose.model("userfarmdatas", farmDataSchema);
 
 // ✅ Farm submission
 app.post("/submit-farm-data", upload.array("reports"), async (req, res) => {
