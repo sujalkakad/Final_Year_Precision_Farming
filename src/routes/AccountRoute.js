@@ -58,4 +58,41 @@ router.get("/get-account", async (req, res) => {
   }
 });
 
+
+
+
+// PUT /api/account/update-account?email=someone@example.com
+router.put("/update-account", async (req, res) => {
+  const { email, username, contactNum, address, city, pincode } = req.body;
+
+  if (!email) {
+    return res.status(400).json({ message: "Email is required to update account." });
+  }
+
+  try {
+    // Find the account by email
+    const account = await Account.findOne({ email });
+    if (!account) {
+      return res.status(404).json({ message: "Account not found." });
+    }
+
+    // Update account with the new data
+    if (username) account.username = username;
+    if (contactNum) account.contactNum = contactNum;
+    if (address) account.address = address;
+    if (city) account.city = city;
+    if (pincode) account.pincode = pincode;
+
+    const updatedAccount = await account.save();
+
+    res.status(200).json({
+      message: "Account updated successfully",
+      data: updatedAccount,
+    });
+  } catch (err) {
+    console.error("Error updating account:", err);
+    res.status(500).json({ message: "Failed to update account." });
+  }
+});
+
 module.exports = router;

@@ -62,11 +62,27 @@ router.post("/save-soil-data", async (req, res) => {
 router.get("/GetSoilData", async (req, res) => {
   const { email } = req.query;
 
-  if (!email) return res.status(400).json({ message: "Email is required" });
+  if (!email) {
+    return res.status(400).json({ message: "Email is required" });
+  }
 
   try {
-    const data = await SoilData.find({ userEmail: email }); // ✅ Fix field name
-    res.json(data);
+    const data = await SoilData.find({ userEmail: email }).sort({ createdAt: -1 });
+
+    // Use a Map to filter out duplicate lat/lng combinations
+    const uniqueEntriesMap = new Map();
+
+    data.forEach(entry => {
+      const key = `${entry.latitude},${entry.longitude}`;
+      if (!uniqueEntriesMap.has(key)) {
+        uniqueEntriesMap.set(key, entry);
+      }
+    });
+
+    // Convert map values to array
+    const filteredData = Array.from(uniqueEntriesMap.values());
+
+    res.json(filteredData);
   } catch (err) {
     console.error("❌ Fetch error:", err.stack);
     res.status(500).json({ message: "Server error" });
